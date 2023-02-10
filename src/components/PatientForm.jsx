@@ -1,11 +1,36 @@
 import { useState } from "react";
+import Error from "./Error";
 
-function PatientForm() {
-	const [name, setName] = useState('');
-	const [owner, setOwner] = useState('');
-	const [email, setEmail] = useState('');
-	const [date, setDate] = useState('');
-	const [sympthoms, setSympthoms] = useState('');
+function PatientForm({ pacientes, setPacientes }) {
+	const [name, setName] = useState("");
+	const [owner, setOwner] = useState("");
+	const [email, setEmail] = useState("");
+	const [date, setDate] = useState("");
+	const [sympthoms, setSympthoms] = useState("");
+
+	const [error, setError] = useState(false);
+	const [saved, setSaved] = useState(false);
+	const [errorMsg, setErrorMsg] = useState('')
+
+
+	function handleSubmit(e) {
+		e.preventDefault();
+		if ([name, owner, email, date, sympthoms].includes("")) {
+			console.log("Hay un campo vacío");
+			setErrorMsg('Falta rellenar campos')
+			setError(true);
+			setSaved(false)
+			return;
+		}
+		setError(false);
+		setPacientes([...pacientes, { name, owner, email, date, sympthoms }]);
+		setSaved(true);
+		setName("");
+		setOwner("");
+		setEmail("");
+		setDate("");
+		setSympthoms("");
+	}
 
 	return (
 		<div className="md:w-1/2 lg:w-2/5  mx-5">
@@ -18,7 +43,10 @@ function PatientForm() {
 					<span className="text-indigo-600">Adminístralos</span>
 				</p>
 			</div>
-			<form className="bg-white shadow-lg rounded-xl px-5 py-10">
+			<form
+				onSubmit={handleSubmit}
+				className="bg-white shadow-lg rounded-xl px-5 py-10">
+				{error && <Error errorMsg = {errorMsg}/>}
 				<div className="mascot">
 					<label
 						className="block text-gray-800 font-bold uppercase pl-2"
@@ -30,7 +58,8 @@ function PatientForm() {
 						type="text"
 						id="mascotName"
 						placeholder="Nombre de la mascota"
-						onChange={ e => setName(e.target.value)}
+						value={name}
+						onChange={(e) => setName(e.target.value)}
 					/>
 				</div>
 
@@ -45,7 +74,8 @@ function PatientForm() {
 						type="text"
 						id="ownerName"
 						placeholder="Nombre del propietario"
-						onChange={e=>setOwner(e.target.value)}
+						value={owner}
+						onChange={(e) => setOwner(e.target.value)}
 					/>
 				</div>
 				<div className="email">
@@ -59,7 +89,8 @@ function PatientForm() {
 						type="email"
 						id="ownerEmail"
 						placeholder="john@doe.com"
-						onChange={e=>setEmail(e.target.value)}
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
 					/>
 				</div>
 				<div className="date">
@@ -72,7 +103,8 @@ function PatientForm() {
 						className="block w-full p-2 mt-2 rounded-bl rounded-tr"
 						type="date"
 						id="Date"
-						onChange={e=>setDate(e.target.value)}
+						value={date}
+						onChange={(e) => setDate(e.target.value)}
 					/>
 				</div>
 				<div className="sympthoms">
@@ -85,7 +117,8 @@ function PatientForm() {
 						id="syomthoms"
 						className="block text-gray-800 pl-2 w-full mb-3"
 						placeholder="Describe los síntomas"
-						onChange={e => setSympthoms(e.target.value)}
+						value={sympthoms}
+						onChange={(e) => setSympthoms(e.target.value)}
 					/>
 				</div>
 				<div className="w-full flex flex-col items-center justify-evenly gap-5 md:flex-row ">
@@ -100,6 +133,10 @@ function PatientForm() {
 						Limpiar campos
 					</button>
 				</div>
+				
+				{saved && (
+					<div className="bg-green-800 text-white w-full text-center p-3 mt-5 rounded-md font-semibold text-lg"> ¡Mascota guardada! 😊</div>
+				)}
 			</form>
 		</div>
 	);
