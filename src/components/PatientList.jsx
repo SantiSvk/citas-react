@@ -12,10 +12,7 @@ function PatientList({ pacientes }) {
 				</p>
 			</div>
 			{pacientes.map((paciente) => (
-				<PatientInfo 
-				paciente={paciente} 
-				key = {paciente.id}
-				/>
+				<PatientInfo paciente={paciente} key={paciente.id} />
 			))}
 		</div>
 	);
