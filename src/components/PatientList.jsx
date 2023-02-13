@@ -1,5 +1,5 @@
 import PatientInfo from "./PatientInfo";
-function PatientList({ pacientes }) {
+function PatientList() {
 	return (
 		<div className="md:w-1/2 lg:w-3/5 md:h-screen overflow-y-scroll">
 			<div className="titles-container">
@@ -11,12 +11,20 @@ function PatientList({ pacientes }) {
 					<span className="text-indigo-600">pacientes y citas</span>
 				</p>
 			</div>
-			{pacientes.map((paciente) => (
-				<PatientInfo 
-				paciente={paciente} 
-				key = {paciente.id}
-				/>
-			))}
+
+            <PatientInfo />
+            <PatientInfo />
+            <PatientInfo />
+            <PatientInfo />
+            <PatientInfo />
+            <PatientInfo />
+            <PatientInfo />
+            <PatientInfo />
+            <PatientInfo />
+            <PatientInfo />
+            <PatientInfo />
+            <PatientInfo />
+
 		</div>
 	);
 }
