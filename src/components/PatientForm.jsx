@@ -12,6 +12,10 @@ function PatientForm({ pacientes, setPacientes }) {
 	const [saved, setSaved] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('')
 
+	function generarId(){
+		return Date.now().toString(36) + Math.random().toString(36).substring(2)
+	}
+
 
 	function handleSubmit(e) {
 		e.preventDefault();
@@ -23,7 +27,7 @@ function PatientForm({ pacientes, setPacientes }) {
 			return;
 		}
 		setError(false);
-		setPacientes([...pacientes, { name, owner, email, date, sympthoms }]);
+		setPacientes([...pacientes, { name, owner, email, date, sympthoms, id : generarId() }]);
 		setSaved(true);
 		setName("");
 		setOwner("");
