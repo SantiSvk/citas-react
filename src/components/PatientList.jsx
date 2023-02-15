@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import PatientInfo from "./PatientInfo";
 
-function PatientList({ pacientes, setPaciente }) {
+function PatientList({ pacientes, setPaciente, handleDelete }) {
 
 	useEffect(()=>{
 		pacientes.length && console.log("Agregando Pacientes!:3")
@@ -23,6 +23,7 @@ function PatientList({ pacientes, setPaciente }) {
 					key={paciente.id} 
 					paciente={paciente} 
 					setPaciente = {setPaciente}
+					handleDelete = {handleDelete}
 					/>
 			)}
 		</div>

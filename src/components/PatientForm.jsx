@@ -37,10 +37,11 @@ function PatientForm({ pacientes, setPacientes, paciente, setPaciente }) {
 			setSaved(false);
 			return;
 		}
+		console.log(paciente.id);
 		if (paciente.id) {
 			setPacientes(
 				pacientes.map((p) => {
-					p.id === paciente.id
+					return p.id === paciente.id
 						? {
 								name,
 								owner,
