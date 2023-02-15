@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Error from "./Error";
 
-function PatientForm({ pacientes, setPacientes }) {
+function PatientForm({ pacientes, setPacientes, paciente, setPaciente }) {
 	const [name, setName] = useState("");
 	const [owner, setOwner] = useState("");
 	const [email, setEmail] = useState("");
@@ -10,30 +10,62 @@ function PatientForm({ pacientes, setPacientes }) {
 
 	const [error, setError] = useState(false);
 	const [saved, setSaved] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('')
+	const [errorMsg, setErrorMsg] = useState("");
 
-	function generarId(){
-		return Date.now().toString(36) + Math.random().toString(36).substring(2)
+	useEffect(() => {
+		if (Object.keys(paciente).length > 0) {
+			setName(paciente.name);
+			setOwner(paciente.owner);
+			setEmail(paciente.email);
+			setDate(paciente.date);
+			setSympthoms(paciente.sympthoms);
+		}
+	}, [paciente]);
+
+	function generarId() {
+		return (
+			Date.now().toString(36) + Math.random().toString(36).substring(2)
+		);
 	}
-
 
 	function handleSubmit(e) {
 		e.preventDefault();
 		if ([name, owner, email, date, sympthoms].includes("")) {
 			console.log("Hay un campo vacío");
-			setErrorMsg('Falta rellenar campos')
+			setErrorMsg("Falta rellenar campos");
 			setError(true);
-			setSaved(false)
+			setSaved(false);
 			return;
 		}
-		setError(false);
-		setPacientes([...pacientes, { name, owner, email, date, sympthoms, id : generarId() }]);
+		if (paciente.id) {
+			setPacientes(
+				pacientes.map((p) => {
+					p.id === paciente.id
+						? {
+								name,
+								owner,
+								email,
+								date,
+								sympthoms,
+								id: paciente.id,
+						  }
+						: p;
+				})
+			);
+		} else {
+			setPacientes([
+				...pacientes,
+				{ name, owner, email, date, sympthoms, id: generarId() },
+			]);
+		}
 		setSaved(true);
 		setName("");
 		setOwner("");
 		setEmail("");
 		setDate("");
 		setSympthoms("");
+		setError(false);
+		setPaciente({});
 	}
 
 	return (
@@ -50,7 +82,7 @@ function PatientForm({ pacientes, setPacientes }) {
 			<form
 				onSubmit={handleSubmit}
 				className="bg-white shadow-lg rounded-xl px-5 py-10">
-				{error && <Error errorMsg = {errorMsg}/>}
+				{error && <Error errorMsg={errorMsg} />}
 				<div className="mascot">
 					<label
 						className="block text-gray-800 font-bold uppercase pl-2"
@@ -137,9 +169,12 @@ function PatientForm({ pacientes, setPacientes }) {
 						Limpiar campos
 					</button>
 				</div>
-				
+
 				{saved && (
-					<div className="bg-green-800 text-white w-full text-center p-3 mt-5 rounded-md font-semibold text-lg"> ¡Mascota guardada! 😊</div>
+					<div className="bg-green-800 text-white w-full text-center p-3 mt-5 rounded-md font-semibold text-lg">
+						{" "}
+						¡Mascota guardada! 😊
+					</div>
 				)}
 			</form>
 		</div>
