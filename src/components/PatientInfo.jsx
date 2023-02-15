@@ -1,4 +1,4 @@
-function PatientInfo({ paciente }) {
+function PatientInfo({ paciente, setPaciente }) {
 	return (
 		<div className="bg-white shadow-lg rounded-xl p-5 mt-5 ml-2">
 			<p className="font-bold uppercase mb-3 text-gray-700">
@@ -29,15 +29,18 @@ function PatientInfo({ paciente }) {
 			</p>
 			<div className="flex">
 				<button
-					style={{flexGrow: 6}}
+					style={{ flexGrow: 6 }}
 					type="button"
-					className="p-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 hover:shadow-md font-semibold">
+					className="p-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 hover:shadow-md font-semibold"
+					onClick={() => {
+						setPaciente(paciente);
+					}}>
 					Editar
 				</button>
 				<button
 					type="button"
 					className="flex-1 p-2 bg-red-800 text-white rounded-md hover:bg-red-900 hover:shadow-md mx-3 font-semibold">
-					Elminar
+					Eliminar
 				</button>
 			</div>
 		</div>
